@@ -5,6 +5,6 @@ exports.get = async (req, res) => {
     const all = await expenses.findAll();
     res.json(all);
   } catch (err) {
-    console.error(err.message);
+    res.status(422).send({ answer: err });
   }
 };
