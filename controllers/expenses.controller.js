@@ -10,17 +10,18 @@ exports.get = async (req, res) => {
 };
 
 // add
-exports.add = (req, res) => {
-  if (!req.body["shop"]) {
-    res.status(422);
-    res.send({ answer: "Text is required" });
+exports.add = async (req, res) => {
+  const { shop } = req.body;
+  const { price } = req.body;
+  if (!shop || !price) {
+    res.status(422).send({ answer: "Shop or price isn't defined!" });
   }
-  expenses
-    .create(req.body)
-    .then(async (data) => {
-      res.send(await expenses.findAll());
-    })
-    .catch((err) => {
-      res.status(422).send({ answer: err });
-    });
+  if (price <= 0 || isNaN(price)) {
+    res.status(422).send({ answer: "Price is not valid" });
+  }
+  try {
+    return (await expenses.create(req.body)) && (await this.get(req, res));
+  } catch (err) {
+    res.status(422).send({ answer: err });
+  }
 };
