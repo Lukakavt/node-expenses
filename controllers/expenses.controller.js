@@ -13,11 +13,8 @@ exports.get = async (req, res) => {
 exports.add = async (req, res) => {
   const { shop } = req.body;
   const { price } = req.body;
-  if (!shop || !price) {
-    return res.status(422).send({ answer: "Shop or price isn't defined!" });
-  }
-  if (price <= 0 || isNaN(price)) {
-    return res.status(422).send({ answer: "Price is not valid" });
+  if (!shop || !price || price <= 0 || isNaN(price)) {
+    return res.status(422).send({ answer: "Shop name or price isn't valid!" });
   }
   try {
     return (await expenses.create(req.body)) && (await this.get(req, res));
