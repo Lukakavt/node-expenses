@@ -13,19 +13,15 @@ exports.get = async (req, res) => {
 exports.add = async (req, res) => {
   const { shop } = req.body;
   const { price } = req.body;
-  let errorMessage;
+  const errorMessage = [];
   if (!shop || !shop.trim()) {
-    errorMessage = "Shop name";
+    errorMessage.push("Shop name should be defined");
   }
   if (price <= 0 || isNaN(price)) {
-    if (!errorMessage) {
-      errorMessage = "Price";
-    } else {
-      errorMessage += " and price";
-    }
+    errorMessage.push("Price is not valid");
   }
   if (errorMessage) {
-    return res.status(422).send({ answer: `${errorMessage} is not valid` });
+    return res.status(422).send({ answer: errorMessage });
   }
   try {
     return (await expenses.create(req.body)) && (await this.get(req, res));
