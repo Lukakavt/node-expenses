@@ -19,7 +19,7 @@ exports.add = async (req, res) => {
   if (price <= 0 || isNaN(price)) {
     errorMessage.push("Price is not valid");
   }
-  if (errorMessage) {
+  if (errorMessage.length > 0) {
     return res.status(422).send({ answer: errorMessage });
   }
   try {
