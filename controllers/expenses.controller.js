@@ -11,8 +11,7 @@ exports.get = async (req, res) => {
 
 // add
 exports.add = async (req, res) => {
-  const { shop } = req.body;
-  const { price } = req.body;
+  const { shop, price } = req.body;
   const errorMessage = [];
   if (!shop || !shop.trim()) {
     errorMessage.push("Shop name should be defined");
