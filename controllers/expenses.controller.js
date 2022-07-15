@@ -30,21 +30,16 @@ exports.add = async (req, res) => {
 };
 
 // remove
-exports.remove = (req, res) => {
+exports.remove = async (req, res) => {
   const { id } = req.params;
   if (!id || !id.trim()) {
     res.status(422).send({ answer: "Id is not valid" });
   }
-  expenses
-    .destroy({ where: { id } })
-    .then(async (removed) => {
-      if (removed) {
-        const leftOvers = await expenses.findAll();
-        return res.send(leftOvers);
-      }
-      return res.status(404).send({ answer: "Item not found" });
-    })
-    .catch((err) => {
-      return res.status(422).send({ answer: err });
-    });
+  try {
+    const remove = await expenses.destroy({ where: { id } });
+    if (remove) return await exports.get(req, res);
+    return res.status(404).send({ answer: "Expense does not exist" });
+  } catch (error) {
+    return res.status(422).send({ answer: error });
+  }
 };
