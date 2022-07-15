@@ -28,3 +28,18 @@ exports.add = async (req, res) => {
     return res.status(422).send({ answer: err });
   }
 };
+
+// remove
+exports.remove = async (req, res) => {
+  const { id } = req.params;
+  if (!id || !id.trim()) {
+    res.status(422).send({ answer: "Id is not valid" });
+  }
+  try {
+    const remove = await expenses.destroy({ where: { id } });
+    if (remove) return await exports.get(req, res);
+    return res.status(404).send({ answer: "Expense does not exist" });
+  } catch (error) {
+    return res.status(422).send({ answer: error });
+  }
+};
