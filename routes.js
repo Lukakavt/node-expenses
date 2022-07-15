@@ -3,6 +3,10 @@ module.exports = (app) => {
   const router = require("express").Router();
 
   router.route("/").get(expensesController.get).post(expensesController.add);
-  router.route("/:id").delete(expensesController.remove);
+  router
+    .route("/:id")
+    .delete(expensesController.remove)
+    .patch(expensesController.update);
+
   app.use("/api/expenses", router);
 };
