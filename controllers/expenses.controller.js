@@ -54,15 +54,19 @@ exports.update = async (req, res) => {
   if (!shop && !price) {
     return res.status(422).send({ answer: "Inputs should not be empty" });
   } else {
-    if (price < 0 || isNaN(price)) {
-      errorMessage.push("Price is not valid");
-    } else {
-      expensesChange.price = price;
+    if (price) {
+      if (price < 0 || isNaN(price) || typeof price != "number") {
+        errorMessage.push("Price is not valid");
+      } else {
+        expensesChange.price = price;
+      }
     }
-    if (!shop.trim()) {
-      errorMessage.push("Shop name should not be empty");
-    } else {
-      expensesChange.shop = shop;
+    if (shop) {
+      if (!shop.trim()) {
+        errorMessage.push("Shop name should not be empty");
+      } else {
+        expensesChange.shop = shop;
+      }
     }
   }
 
