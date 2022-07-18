@@ -1,11 +1,14 @@
-const express = require("express");
+const express = require('express');
+
 const app = express();
 const port = 3300;
-const cors = require("cors");
+const cors = require('cors');
+
 app.use(cors());
 app.use(express.json());
 
-const routes = require("./routes");
+const routes = require('./routes');
+
 routes(app);
 
 app.listen(port, () => {
